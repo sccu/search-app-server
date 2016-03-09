@@ -1,0 +1,13 @@
+<web-app>
+
+    <servlet>
+        <servlet-name>SearchServlet</servlet-name>
+        <servlet-class>name.sccu.search.SearchServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SearchServlet</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+
+</web-app>
