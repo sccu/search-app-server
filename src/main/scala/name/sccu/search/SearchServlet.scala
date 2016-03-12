@@ -25,7 +25,7 @@ object alternatives {
         return value
       }
     }
-    values(0)
+    null.asInstanceOf[T]
   }
 }
 

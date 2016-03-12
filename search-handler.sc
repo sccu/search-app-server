@@ -1,6 +1,6 @@
 import javax.servlet.http.HttpServletRequest
 
-import name.sccu.search.{SearchContext, SearchHandler, Validation}
+import name.sccu.search.SearchHandler
 import org.apache.solr.client.solrj.SolrQuery
 
 object MySearchHandler extends SearchHandler {
@@ -21,27 +21,30 @@ object MySearchHandler extends SearchHandler {
     "srch_addr"
   )
 
-//  override val validations: Seq[Validation] = super.validations ++: Seq(
-//    Validation(_.getParameter("q") != null, _ => "'q' parameter not found"),
-//    Validation(_.getParameter("q").nonEmpty, _ => "Empty 'q' parameter")
-//  )
+  //  override val validations: Seq[Validation] = super.validations ++: Seq(
+  //    Validation(_.getParameter("q") != null, _ => "'q' parameter not found"),
+  //    Validation(_.getParameter("q").nonEmpty, _ => "Empty 'q' parameter")
+  //  )
 
   override def buildSolrQuery(query: String, req: HttpServletRequest): SolrQuery = {
-    val q = query match { case null | "" => "*" case x => x }
+    val q = query match {
+      case null | "" => "*"
+      case x => x
+    }
     val solrQuery = super.buildSolrQuery(q, req)
 
     val formula =
       s"""srch_nm:($q) OR
-        |srch_addr:($q) OR
-        |srch_phone:($q) OR
-        |srch_cate:($q)""".
-      stripMargin
+          |srch_addr:($q) OR
+          |srch_phone:($q) OR
+          |srch_cate:($q)""".
+        stripMargin
     solrQuery.setQuery(formula)
     solrQuery.set("q.op", "AND")
     solrQuery
   }
 
-//  override def additionalLogFields(ctx: SearchContext): Seq[String] = Seq( )
+  //  override def additionalLogFields(ctx: SearchContext): Seq[String] = Seq( )
 
 }
 

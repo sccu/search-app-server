@@ -14,6 +14,8 @@ libraryDependencies += "org.scala-lang" % "scala-compiler" % "2.11.7"
 
 libraryDependencies += "org.scala-lang" % "scala-library" % "2.11.7"
 
+libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.11.7"
+
 libraryDependencies += "com.fasterxml.jackson.core" % "jackson-core" % "2.7.2"
 
 libraryDependencies += "com.fasterxml.jackson.module" % "jackson-module-scala_2.11" % "2.7.2"
@@ -36,3 +38,5 @@ containerPort := 8086
 
 //javaOptions += "-DsearchHandler=/search_handler.sc"
 javaOptions += "-Dloglevel.debug"
+
+fork := true
