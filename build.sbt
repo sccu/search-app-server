@@ -20,6 +20,12 @@ libraryDependencies += "com.fasterxml.jackson.module" % "jackson-module-scala_2.
 
 libraryDependencies += "org.json4s" %% "json4s-jackson" % "3.3.0"
 
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.6"
+
+libraryDependencies += "org.codehaus.janino" % "janino" % "2.7.8"
+
+libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.1.0"
+
 libraryDependencies += "org.scalatest" %% "scalatest" % "latest.integration" % "test"
 
 enablePlugins(JettyPlugin)
@@ -29,3 +35,4 @@ containerArgs := Seq("--path", "/search", "--classes", "./")
 containerPort := 8086
 
 //javaOptions += "-DsearchHandler=/search_handler.sc"
+javaOptions += "-Dloglevel.debug"

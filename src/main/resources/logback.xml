@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- address performance concern with jul-to-slf4j -->
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+
+    <if condition='isDefined("loglevel.debug")'>
+        <then>
+            <!-- IDE에서 jetty-maven-plugin을 이용해서 테스트할 때 사용할 로그 -->
+            <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+                <encoder>
+                    <pattern>%date %level %logger{10}:%line %msg%n</pattern>
+                </encoder>
+            </appender>
+            <logger name="name.sccu" level="debug">
+                <appender-ref ref="STDOUT"/>
+            </logger>
+
+            <appender name="STDOUT-TRANSACTION" class="ch.qos.logback.core.ConsoleAppender">
+                <encoder>
+                    <pattern>%date %msg%n</pattern>
+                </encoder>
+            </appender>
+            <logger name="transaction-log" level="debug">
+                <appender-ref ref="STDOUT-TRANSACTION"/>
+            </logger>
+        </then>
+        <else>
+            <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <file>${com.skplanet.env.ServiceHome}/var/log/sas.tmap.log</file>
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                    <!-- daily rollover -->
+                    <fileNamePattern>${com.skplanet.env.ServiceHome}/var/log/sas.tmap.log.%d{yyyyMMdd}
+                    </fileNamePattern>
+
+                    <maxHistory>30</maxHistory>
+                </rollingPolicy>
+
+                <encoder>
+                    <pattern>%date %level %logger{10} [%file:%line] %msg%n</pattern>
+                </encoder>
+            </appender>
+            <logger name="name.sccu" level="debug">
+                <appender-ref ref="FILE"/>
+            </logger>
+
+            <appender name="TRANSACTION" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <file>${com.skplanet.env.ServiceHome}/var/log/transaction.tmap.log</file>
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                    <!-- daily rollover -->
+                    <fileNamePattern>
+                        ${com.skplanet.env.ServiceHome}/var/log/transaction.tmap.log.%d{yyyyMMdd}
+                    </fileNamePattern>
+
+                    <!-- keep 30 days' worth of history -->
+                    <maxHistory>30</maxHistory>
+                </rollingPolicy>
+
+                <encoder>
+                    <pattern>%date %msg%n</pattern>
+                </encoder>
+            </appender>
+            <logger name="transaction-log" level="debug">
+                <appender-ref ref="TRANSACTION"/>
+            </logger>
+        </else>
+    </if>
+
+</configuration>
