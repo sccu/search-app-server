@@ -1,6 +1,8 @@
 search-app-server
 =================
 
+[![Build Status](https://travis-ci.org/sccu/search-app-server.svg?branch=master)](https://travis-ci.org/sccu/search-app-server)
+
 search-app-server is a servlet guiding search processes and providing tools 
 for search processes like text processing, query analysis, query expansion, 
 etc.
