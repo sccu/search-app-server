@@ -11,4 +11,5 @@ object JsonMapper {
 
   def write(obj: AnyRef): String = mapper.writeValueAsString(obj)
   def write(w: Writer, obj:AnyRef): Unit = mapper.writeValue(w, obj)
+  def read[T](jsonString: String, cls: Class[T]): T = mapper.readValue(jsonString, cls)
 }

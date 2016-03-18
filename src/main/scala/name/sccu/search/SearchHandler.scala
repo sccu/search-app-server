@@ -2,6 +2,7 @@ package name.sccu.search
 
 import javax.servlet.http.HttpServletRequest
 
+import name.sccu.utils.alternatives
 import org.apache.solr.client.solrj.response.QueryResponse
 import org.apache.solr.client.solrj.{SolrQuery, SolrClient}
 
