@@ -35,14 +35,6 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "latest.integration" % "
 
 libraryDependencies += "com.novocode" % "junit-interface" % "0.10" % "test"
 
-//libraryDependencies += "org.eclipse.jetty" % "jetty-server" % "9.3.7.v20160115" % "test"
-
-//libraryDependencies += "org.eclipse.jetty" % "jetty-servlet" % "9.3.7.v20160115" % "test"
-
-//libraryDependencies += "org.eclipse.jetty" % "jetty-webapp" % "9.3.7.v20160115" % "test"
-
-//libraryDependencies += "org.eclipse.jetty" % "jetty-jmx" % "9.3.7.v20160115" % "test"
-
 libraryDependencies += "org.apache.solr" % "solr-test-framework" % "5.5.0" % "test" exclude(
     "com.fasterxml.jackson.core", "jackson-core"
   )
@@ -53,8 +45,6 @@ enablePlugins(JettyPlugin)
 containerArgs := Seq("--path", "/search", "--classes", "./")
 
 fork := true
-
-//fork in Test := true
 
 val port = 8086
 
