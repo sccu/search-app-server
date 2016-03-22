@@ -2,12 +2,16 @@ package name.sccu.search
 
 import javax.servlet.http.HttpServletRequest
 
-import name.sccu.search.analysis.{AnalysisOutput, QueryAnalyzer}
+import name.sccu.search.analysis.{AnalysisOutput, QueryAnalyzer, StandardQueryAnalyzer}
 import name.sccu.utils.alternatives
 import org.apache.solr.client.solrj.response.QueryResponse
 import org.apache.solr.client.solrj.{SolrClient, SolrQuery}
 
 trait SearchHandler {
+  def createQueryAnalyzer(solrClient: SolrClient): QueryAnalyzer = {
+    new StandardQueryAnalyzer(solrClient, coreName, analysisFieldType)
+  }
+
   def solrUrls: Seq[String]
 
   def coreName: String

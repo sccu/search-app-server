@@ -43,13 +43,12 @@ class SearchServlet extends HttpServlet with StrictLogging {
   }
 
   def initQueryAnalyzer(): Unit = {
-    queryAnalyzer = new QueryAnalyzer(solrClient, searchHandler.coreName, searchHandler.analysisFieldType)
+    queryAnalyzer = searchHandler.createQueryAnalyzer(solrClient)
   }
 
   def handleException(e: SearchException, ctx: SearchContext) = {
     ctx.resp.sendError(e.code, e.msg)
   }
-
 
   override def doGet(request: HttpServletRequest, response: HttpServletResponse) = {
     if (searchHandler.reloadForEveryRequest) {
@@ -73,7 +72,6 @@ class SearchServlet extends HttpServlet with StrictLogging {
         logger.debug("analyzeQuery() = " + ctx.analysisOutput)
         logger.debug("Invoking buildSolrQuery().")
         ctx.solrQuery = searchHandler.buildSolrQuery(ctx)
-        logger.debug("escapeQuery() => " + ctx.escapedQuery)
         val (_, searchTime) = stopwatch {
           logger.debug("Invoking search().")
           ctx.solrResponse = searchHandler.search(solrClient, ctx)

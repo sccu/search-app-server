@@ -51,7 +51,7 @@ class SearchServletIntegrationTest extends FlatSpec with BeforeAndAfterAll {
     jetty.setHandler(handler)
     jetty.start()
     val solr = initializeSolrServer("solr-it", "poi")
-    handler.getServletContext.setAttribute("solr-client", solr);
+    handler.getServletContext.setAttribute("solr-client", solr)
   }
 
   "ScalaTest" should "run successfully." in {
