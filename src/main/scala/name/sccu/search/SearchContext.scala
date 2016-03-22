@@ -1,13 +1,15 @@
 package name.sccu.search
 
 import scala.collection._
+import javax.servlet.http.{HttpServletRequest, HttpServletResponse}
 
-import javax.servlet.http.{HttpServletResponse, HttpServletRequest}
-
+import name.sccu.search.analysis.AnalysisOutput
 import org.apache.solr.client.solrj.SolrQuery
 import org.apache.solr.client.solrj.response.QueryResponse
 
 case class SearchContext(req: HttpServletRequest, resp: HttpServletResponse) {
+  var analysisOutput: AnalysisOutput = _
+
   var userQuery: String = _
 
   var overallTime: Long = _

@@ -1,6 +1,6 @@
 import javax.servlet.http.HttpServletRequest
 
-import name.sccu.search.SearchHandler
+import name.sccu.search.{SearchContext, SearchHandler}
 import org.apache.solr.client.solrj.SolrQuery
 
 object MySearchHandler extends SearchHandler {
@@ -10,6 +10,8 @@ object MySearchHandler extends SearchHandler {
   val solrUrls = Seq("http://localhost:16101/solr/")
 
   val coreName = "poi"
+
+  val analysisFieldType = "text_ko"
 
   override val fieldList: Seq[String] = Seq(
     "id",
@@ -26,12 +28,13 @@ object MySearchHandler extends SearchHandler {
   //    Validation(_.getParameter("q").nonEmpty, _ => "Empty 'q' parameter")
   //  )
 
-  override def buildSolrQuery(query: String, req: HttpServletRequest): SolrQuery = {
-    val q = query match {
+  override def buildSolrQuery(ctx: SearchContext): SolrQuery = {
+
+    val q = ctx.escapedQuery match {
       case null | "" => "*"
       case x => x
     }
-    val solrQuery = super.buildSolrQuery(q, req)
+    val solrQuery = super.buildSolrQuery(ctx)
 
     val formula =
       s"""srch_nm:($q) OR
@@ -45,6 +48,5 @@ object MySearchHandler extends SearchHandler {
   }
 
   //  override def additionalLogFields(ctx: SearchContext): Seq[String] = Seq( )
-
 }
 

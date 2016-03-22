@@ -27,21 +27,21 @@ class SearchServletIntegrationTest extends FlatSpec with BeforeAndAfterAll {
   }
 
   private def initializeSolrServer(solrHome: String, coreName: String): SolrClient = {
-    System.setProperty("solr.solr.home", solrHome);
-    val index = new File(solrHome + "/" + coreName + "/data/index/");
+    System.setProperty("solr.solr.home", solrHome)
+    val index = new File(solrHome + "/" + coreName + "/data/index/")
     if (index.exists()) {
-      FileUtils.cleanDirectory(index);
+      FileUtils.cleanDirectory(index)
     }
-    val tlog = new File(solrHome + "/" + coreName + "/data/tlog/");
+    val tlog = new File(solrHome + "/" + coreName + "/data/tlog/")
     if (tlog.exists()) {
-      FileUtils.cleanDirectory(tlog);
+      FileUtils.cleanDirectory(tlog)
     }
-    val coreContainer = new CoreContainer(solrHome);
-    coreContainer.load();
+    val coreContainer = new CoreContainer(solrHome)
+    coreContainer.load()
 
-    val solr = new EmbeddedSolrServer(coreContainer, coreName);
-    solr.deleteByQuery("*:*");
-    solr.commit();
+    val solr = new EmbeddedSolrServer(coreContainer, coreName)
+    solr.deleteByQuery("*:*")
+    solr.commit()
     solr
   }
 
@@ -55,7 +55,7 @@ class SearchServletIntegrationTest extends FlatSpec with BeforeAndAfterAll {
   }
 
   "ScalaTest" should "run successfully." in {
-    val resp = Seq("curl", "-s", "http://localhost:8086/search/poi?q=냉면").!!
+    val resp = Seq("curl", "-s", "http://localhost:8086/search/poi?q=함흥+냉면").!!
     val json = JsonMapper.read(resp, classOf[Map[String, Any]])
     val numFound = json.get("response").get.asInstanceOf[Map[String, Any]].
       get("num_found").get.asInstanceOf[Int]

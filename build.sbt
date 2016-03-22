@@ -4,7 +4,9 @@ organization := "name.sccu"
 
 version := "0.1"
 
-scalaVersion := "2.11.7"
+val scalaVer = "2.11.7"
+
+scalaVersion := scalaVer
 
 resolvers += "spring-releases" at "http://repo.spring.io/libs-release-remote/"
 
@@ -12,11 +14,11 @@ libraryDependencies += "javax.servlet" % "javax.servlet-api" % "3.1.0" % "provid
 
 libraryDependencies += "org.apache.solr" % "solr-solrj" % "5.5.0"
 
-libraryDependencies += "org.scala-lang" % "scala-compiler" % "2.11.7"
+libraryDependencies += "org.scala-lang" % "scala-compiler" % scalaVer
 
-libraryDependencies += "org.scala-lang" % "scala-library" % "2.11.7"
+libraryDependencies += "org.scala-lang" % "scala-library" % scalaVer
 
-libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.11.7"
+libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVer
 
 libraryDependencies += "com.fasterxml.jackson.core" % "jackson-core" % "2.7.2"
 

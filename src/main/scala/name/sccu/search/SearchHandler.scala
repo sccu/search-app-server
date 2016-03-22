@@ -2,14 +2,17 @@ package name.sccu.search
 
 import javax.servlet.http.HttpServletRequest
 
+import name.sccu.search.analysis.{AnalysisOutput, QueryAnalyzer}
 import name.sccu.utils.alternatives
 import org.apache.solr.client.solrj.response.QueryResponse
-import org.apache.solr.client.solrj.{SolrQuery, SolrClient}
+import org.apache.solr.client.solrj.{SolrClient, SolrQuery}
 
 trait SearchHandler {
   def solrUrls: Seq[String]
 
   def coreName: String
+
+  def analysisFieldType: String
 
   def reloadForEveryRequest = false
 
@@ -32,8 +35,12 @@ trait SearchHandler {
     } yield validation.message(request)
   }
 
-  def acceptRequest(ctx: SearchContext): SearchContext = ???
-
+  /**
+    * Escape and preprocess a query string.
+    *
+    * @param q query string
+    * @return preprocessed query string
+    */
   def escapeQuery(q: String): String = {
     alternatives(q, "").
       map {
@@ -47,15 +54,17 @@ trait SearchHandler {
       }.mkString
   }
 
-  def analyzeQuery(ctx: SearchContext): SearchContext = ???
+  def analyzeQuery(ctx: SearchContext, qa: QueryAnalyzer): AnalysisOutput = {
+    qa.analyze(ctx.escapedQuery)
+  }
 
-  def buildSolrQuery(q: String, req: HttpServletRequest): SolrQuery = {
-    val params = req.getParameterMap
+  def buildSolrQuery(ctx: SearchContext): SolrQuery = {
+    val q = ctx.escapedQuery
     val solrQuery = new SolrQuery
 
-    val start = params.getOrDefault("start", Array("0"))(0).toInt
+    val start = alternatives(ctx.req.getParameter("start"), "0").toInt
     solrQuery.setStart(start)
-    val rows = params.getOrDefault("rows", Array("10"))(0).toInt
+    val rows = alternatives(ctx.req.getParameter("rows"), "10").toInt
     solrQuery.setRows(rows)
     solrQuery.setFields(fieldList: _*)
 

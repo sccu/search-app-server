@@ -20,6 +20,7 @@ class ScalaInterpreterTest extends FlatSpec {
         |object MySearchHandler extends SearchHandler {
         |  val solrUrls = Seq("http://localhost:8086")
         |  val coreName = "poi"
+        |  val analysisFieldType = "text_ko"
         |}
       """.stripMargin
     )
